@@ -1,23 +1,15 @@
-import React, { useContext } from "react";
-import userContext from "../features/userContext/UserContext";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const ThankYou = () => {
-  const { state, dispatch } = useContext(userContext);
+const Thankyou = () => {
   return (
-    <div className="container">
-      <h1>Checkout</h1>
-      <p>Thank you for your order</p>
-      <br />
-      <button
-        className="btn btn-primary"
-        onClick={() => {
-          dispatch({ type: "GoBackToMenu", payload: "" });
-        }}
-      >
-        Go Back to menu
-      </button>
+    <div>
+      <h1>Thank You for Shopping</h1>
+      <Link className="btn btn-primary" to={"/menu"}>
+        GO TO MENU
+      </Link>
     </div>
   );
 };
 
-export default ThankYou;
+export default Thankyou;

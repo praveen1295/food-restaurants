@@ -1,35 +1,44 @@
-import React, { useContext, useState } from "react";
-import userContext from "../features/userContext/UserContext";
+import React, { useContext } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import userContext from "../Features/userContext";
 
 const Login = () => {
-  const { state, dispatch } = useContext(userContext);
+  const navigate = useNavigate();
+  const { state, dispatch, flag, setFlag, currentUser, setCurrentUser } =
+    useContext(userContext);
   console.log(state);
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-    userName: "",
-  });
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    const cUser = state.USER.map((user, index) => {
+      if (user.email === loginData.email) {
+        setCurrentUser({ ...user });
+      }
+      return user;
+    });
+    // e.preventDefault();
+    // console.log(loginData);
     const auth = state.USER.some((user) => {
-      // console.log(action.payload);
       return (
-        user.userEmail === loginData.email &&
-        user.userPassword === loginData.password
+        user.email === loginData.email && user.password === loginData.password
       );
     });
     if (!auth) {
-      alert("please enter valid username, password");
+      alert("Please enter valid credentials");
       return;
     }
-    dispatch({ type: "handleLogin", payload: loginData });
+    setFlag({ ...flag, login: true, cart: true });
+    navigate("/welcome");
   };
+
   return (
-    <div className="container" style={{ width: "50%" }}>
-      <form onSubmit={handleSubmit}>
+    <div className="container my-4" style={{ width: "50%" }}>
+      {/* {console.log("New currentUser", currentUser)} */}
+      <h1>Log In</h1>
+      <div>
         <div className="row mb-3">
-          <label htmlFor="inputEmail4" className="col-sm-2 col-form-label">
+          <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">
             Email
           </label>
           <div className="col-sm-10">
@@ -58,19 +67,20 @@ const Login = () => {
             />
           </div>
         </div>
-        <div className="row mb-3">
-          <div className="col-sm-10 offset-sm-2"></div>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Sign in
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={(e) => handleSubmit(e)}
+        >
+          Log in
         </button>
-      </form>
-      <span
-        onClick={() => dispatch({ type: "handleSignup", payload: false })}
-        style={{ marginLeft: "75%", cursor: "pointer" }}
+      </div>
+      <Link
+        style={{ float: "right", color: "blue", textDecoration: "none" }}
+        to="/signup"
       >
         Create New Account
-      </span>
+      </Link>
     </div>
   );
 };

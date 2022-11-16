@@ -1,110 +1,60 @@
 export default function reducer(state, action) {
   switch (action.type) {
-    case "handleSignup": {
-      const flg = { ...state.flag, login: false, signup: true };
-      return {
-        ...state,
-        flag: flg,
-      };
-    }
-    case "userDetail": {
-      const flg = {
-        ...state.flag,
-        login: true,
-        signup: false,
-        WelcomePage: false,
-      };
+    case "userData": {
       const userData = [
         ...state.USER,
-        {
-          userName: action.payload.name,
-          userEmail: action.payload.email,
-          userPassword: action.payload.password,
-          confirmUserPass: action.payload.confirmPassword,
-          id: state.USER.length,
-        },
+        { ...action.payload, id: state.USER.length },
       ];
-      return { ...state, USER: userData, flag: flg };
-    }
-    case "handleLogin": {
-      let name = "";
-      state.USER.map((item) => {
-        if (item.userEmail === action.payload.email) {
-          name = item.userName;
-        }
-        return item;
-      });
-
-      const flg = {
-        ...state.flag,
-        login: false,
-        WelcomePage: true,
-        logout: true,
-      };
-      return {
-        ...state,
-        userName: name,
-        flag: flg,
-      };
-    }
-    case "GoTOMemu": {
-      const flg = {
-        ...state.flag,
-        login: false,
-        WelcomePage: false,
-        menu: true,
-        cart: true,
-      };
-      return {
-        ...state,
-        flag: flg,
-      };
+      return { ...state, USER: userData };
     }
 
-    case "thankYou": {
-      const flg = {
-        ...state.flag,
-        menu: false,
-        cart: false,
-        tku: true,
-      };
-      return {
-        ...state,
-        flag: flg,
-      };
-    }
+    // case "addToCart": {
+    //   let addItem = true;
+    //   const data = state.cartData.map((item, idx) => {
+    //     if (item.item === action.payload.itemName) {
+    //       addItem = false;
+    //       return {
+    //         ...item,
+    //         count: item.count + 1,
+    //       };
+    //     }
+    //     return item;
+    //   });
+    //   if (!addItem) {
+    //     return {
+    //       ...state,
+    //       cartData: data,
+    //     };
+    //   }
+    //   if (addItem) {
+    //     let addData = [
+    //       ...state.cartData,
+    //       {
+    //         item: action.payload.itemName,
+    //         price: action.payload.itemPrice,
+    //         count: 1,
+    //         id: action.payload.index,
+    //       },
+    //     ];
+    //     return {
+    //       ...state,
+    //       cartData: addData,
+    //     };
+    //   }
 
-    case "GoBackToMenu": {
-      const flg = {
-        ...state.flag,
-        menu: true,
-        cart: false,
-        tku: false,
-      };
-      return {
-        ...state,
-        flag: flg,
-      };
-    }
-
-    case "cartClick": {
-      const flg = {
-        ...state.flag,
-        login: false,
-        WelcomePage: false,
-        cart: true,
-      };
-      return {
-        ...state,
-        flag: flg,
-      };
-    }
+    //   return {
+    //     ...state,
+    //   };
+    // }
 
     case "addToCart": {
       let addItem = true;
-      const data = state.cartData.map((item, idx) => {
+      let index = action.payload.currentUser.id;
+
+      const data = state.USER[index].cartData.map((item, idx) => {
         if (item.item === action.payload.itemName) {
           addItem = false;
+          console.log("gggggggggggggggggggggggggggggg");
           return {
             ...item,
             count: item.count + 1,
@@ -112,15 +62,17 @@ export default function reducer(state, action) {
         }
         return item;
       });
+
       if (!addItem) {
+        state.USER[index].cartData = data;
         return {
           ...state,
-          cartData: data,
         };
       }
+
       if (addItem) {
         let addData = [
-          ...state.cartData,
+          ...state.USER[index].cartData,
           {
             item: action.payload.itemName,
             price: action.payload.itemPrice,
@@ -128,11 +80,10 @@ export default function reducer(state, action) {
             id: action.payload.index,
           },
         ];
-        console.log("add");
-        return {
-          ...state,
-          cartData: addData,
-        };
+        state.USER[index].cartData = addData;
+        // return {
+        //   ...state,
+        // };
       }
 
       return {
@@ -140,10 +91,31 @@ export default function reducer(state, action) {
       };
     }
 
+    // case "removeFromCart": {
+    //   const data = state.cartData
+    //     .map((item, index) => {
+    //       if (item.item === action.payload) {
+    //         return {
+    //           ...item,
+    //           count: item.count - 1,
+    //         };
+    //       }
+    //       return item;
+    //     })
+    //     .filter((item, index) => {
+    //       return item.count > 0;
+    //     });
+    //   return {
+    //     ...state,
+    //     cartData: data,
+    //   };
+    // }
+
     case "removeFromCart": {
-      const data = state.cartData
+      const index = action.payload.currentUser.id;
+      const data = state.USER[index].cartData
         .map((item, index) => {
-          if (item.item === action.payload) {
+          if (item.item === action.payload.itemName) {
             return {
               ...item,
               count: item.count - 1,
@@ -154,58 +126,10 @@ export default function reducer(state, action) {
         .filter((item, index) => {
           return item.count > 0;
         });
+      state.USER[index].cartData = data;
       return {
         ...state,
-        cartData: data,
-      };
-    }
-
-    case "loginNavbar": {
-      const flg = {
-        ...state.flag,
-        login: true,
-        signup: false,
-        WelcomePage: false,
-        menu: false,
-        cart: false,
-        tku: false,
-        logout: false,
-      };
-      return {
-        ...state,
-        flag: flg,
-      };
-    }
-    case "logout": {
-      const flg = {
-        ...state.flag,
-        login: true,
-        signup: false,
-        WelcomePage: false,
-        menu: false,
-        cart: false,
-        tku: false,
-        logout: false,
-      };
-      return {
-        ...state,
-        flag: flg,
-      };
-    }
-
-    case "about": {
-      const flg = {
-        ...state.flag,
-        login: true,
-        signup: false,
-        WelcomePage: false,
-        menu: false,
-        cart: false,
-        tku: false,
-      };
-      return {
-        ...state,
-        flag: flg,
+        // cartData: data,
       };
     }
     default:

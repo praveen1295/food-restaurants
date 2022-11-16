@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import userContext from "../features/userContext/UserContext";
+import { Link } from "react-router-dom";
+import userContext from "../Features/userContext";
 
 const Cart = () => {
-  const { state, dispatch } = useContext(userContext);
+  const { state, dispatch, currentUser } = useContext(userContext);
+  const { id } = currentUser;
   const [totalPrice, setTotalPrice] = useState(0);
   const total = () => {
     let tPrice = 0;
-    state.cartData.forEach((item) => {
+    state.USER[id].cartData.forEach((item) => {
       tPrice += item.count * item.price;
     });
     setTotalPrice(tPrice);
@@ -17,16 +19,20 @@ const Cart = () => {
     total();
   });
   return (
-    <div
-      className="container"
-      style={{
-        position: "absolute",
-        top: "10%",
-        left: "10%",
-      }}
-    >
+    <div>
+      {/* <!-- Button trigger modal --> */}
+      <button
+        type="button"
+        className="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        cart item: {state.USER[id].cartData.length}
+      </button>
+
+      {/* <!-- Modal --> */}
       <div
-        className="modal fade modal-dialog modal-dialog-centered"
+        className="modal fade"
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -38,7 +44,7 @@ const Cart = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                Order Summary
+                Modal title
               </h1>
               <button
                 type="button"
@@ -47,43 +53,58 @@ const Cart = () => {
                 aria-label="Close"
               ></button>
             </div>
-            {state.cartData.map((item, idx) => {
-              return (
-                <div className="d-flex justify-content-around gap-3 my-2">
-                  <span style={{ width: "100px" }}>{item.item}:</span>
-                  <span style={{ width: "100px" }}>{item.count}</span>
-                  <div style={{ width: "100px" }}>
-                    <button
-                      className="btn btn-danger mx-2"
-                      onClick={() =>
-                        dispatch({
-                          type: "removeFromCart",
-                          payload: item.item,
-                        })
-                      }
-                    >
-                      -
-                    </button>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() =>
-                        dispatch({
-                          type: "addToCart",
-                          payload: {
-                            itemName: item.item,
-                            itemPrice: item.price,
-                            index: idx,
-                          },
-                        })
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-            Total (INR): {totalPrice}
+            <div className="modal-body">
+              {state.USER[id].cartData.length ? (
+                <>
+                  {state.USER[id].cartData.map((item, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className="d-flex justify-content-around gap-3 my-2"
+                      >
+                        <span style={{ width: "100px" }}>{item.item}:</span>
+                        <span style={{ width: "100px" }}>{item.count}</span>
+                        <div style={{ width: "100px" }}>
+                          <button
+                            className="btn btn-danger mx-2"
+                            onClick={() =>
+                              dispatch({
+                                type: "removeFromCart",
+                                payload: {
+                                  itemName: item.item,
+                                  currentUser: currentUser,
+                                },
+                              })
+                            }
+                          >
+                            -
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() =>
+                              dispatch({
+                                type: "addToCart",
+                                payload: {
+                                  itemName: item.item,
+                                  itemPrice: item.price,
+                                  index: idx,
+                                  currentUser: currentUser,
+                                },
+                              })
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  Total (INR): {totalPrice}
+                </>
+              ) : (
+                "Cart Is Empty"
+              )}
+            </div>
             <div className="modal-footer">
               <button
                 type="button"
@@ -92,19 +113,18 @@ const Cart = () => {
               >
                 Close
               </button>
-              <button
+              <Link
                 type="button"
                 className="btn btn-primary"
-                data-bs-dismiss="modal"
-                onClick={() => dispatch({ type: "thankYou", payload: "" })}
+                to={"/thankYou"}
+                // data-bs-dismiss="modal"
               >
                 Save and Checkout
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
-      {console.log("total", totalPrice)}
     </div>
   );
 };
