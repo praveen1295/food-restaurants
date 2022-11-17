@@ -32,7 +32,7 @@ const Signup = () => {
       alert("User of this Email Already Exist");
       return;
     }
-    alert("successful sign up");
+    alert("Account is successfully created");
 
     dispatch({ type: "userData", payload: userData });
     setUserData({
