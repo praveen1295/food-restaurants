@@ -9,7 +9,11 @@ const Menu = () => {
     <div className="container">
       <div className="d-flex justify-content-between my-4">
         {dataList.map((item, idx) => {
-          return <Card kay={idx} item={item} idx={idx} />;
+          return (
+            <div key={idx}>
+              <Card item={item} idx={idx} />
+            </div>
+          );
         })}
       </div>
     </div>

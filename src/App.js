@@ -30,7 +30,6 @@ function App() {
   useEffect(() => {
     getData();
   }, []);
-  // console.log(state);
   return (
     <userContext.Provider
       value={{
@@ -46,9 +45,6 @@ function App() {
     >
       <Router>
         <div className="App">
-          {console.log("New currentUser", currentUser.id)}
-          {console.log("New statelllllll", state.USER)}
-
           <Navbar />
           <Routes>
             <Route path="/" element={<Login />} />
@@ -57,6 +53,7 @@ function App() {
             <Route path="/menu" element={<Menu />} />
             {flag.cart && <Route path="/cart" element={<Cart />} />}
             <Route path="/thankYou" element={<Thankyou />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </div>
       </Router>

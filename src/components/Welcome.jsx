@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import userContext from "../Features/userContext";
 
 const Welcome = () => {
+  const { currentUser } = useContext(userContext);
   return (
-    <div className="container">
+    <div className="container my-4">
+      <h2>Hay! {currentUser.name}</h2>
       <h1>Welcome to Foods Restaurants</h1>
       <Link type="submit" className="btn btn-primary" to={"/menu"}>
         GO TO MENU

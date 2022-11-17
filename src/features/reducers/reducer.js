@@ -48,27 +48,29 @@ export default function reducer(state, action) {
     // }
 
     case "addToCart": {
+      let index = action.payload.currentUser.index;
       let addItem = true;
-      let index = action.payload.currentUser.id;
+      let arr = state.USER[index].cartData;
 
-      const data = state.USER[index].cartData.map((item, idx) => {
+      const data = arr.map((item, idx) => {
         if (item.item === action.payload.itemName) {
           addItem = false;
-          console.log("gggggggggggggggggggggggggggggg");
+          console.log("1", state.USER);
+          item.count = item.count + 1;
           return {
             ...item,
-            count: item.count + 1,
           };
         }
         return item;
       });
 
-      if (!addItem) {
-        state.USER[index].cartData = data;
-        return {
-          ...state,
-        };
-      }
+      // if (!addItem) {
+      //   // state.USER[index].cartData = data;
+      //   console.log("2", state.USER);
+      //   return {
+      //     ...state,
+      //   };
+      // }
 
       if (addItem) {
         let addData = [
@@ -80,12 +82,13 @@ export default function reducer(state, action) {
             id: action.payload.index,
           },
         ];
-        state.USER[index].cartData = addData;
-        // return {
-        //   ...state,
-        // };
-      }
 
+        state.USER[index].cartData = addData;
+        console.log("3", state.USER);
+        return {
+          ...state,
+        };
+      }
       return {
         ...state,
       };

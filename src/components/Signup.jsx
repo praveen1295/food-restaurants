@@ -11,7 +11,6 @@ const Signup = () => {
     cartData: [],
   });
   const { state, dispatch } = useContext(userContext);
-  console.log(state);
 
   const handleSubmit = (e) => {
     e.preventDefault();

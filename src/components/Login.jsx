@@ -5,20 +5,20 @@ import userContext from "../Features/userContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  // const [currIndex, setCurrIndex] = useState(0);
+
   const { state, dispatch, flag, setFlag, currentUser, setCurrentUser } =
     useContext(userContext);
-  console.log(state);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
   const handleSubmit = (e) => {
     const cUser = state.USER.map((user, index) => {
       if (user.email === loginData.email) {
-        setCurrentUser({ ...user });
+        setCurrentUser({ ...user, index: index });
+        // setCurrIndex(index);
       }
       return user;
     });
-    // e.preventDefault();
-    // console.log(loginData);
     const auth = state.USER.some((user) => {
       return (
         user.email === loginData.email && user.password === loginData.password
@@ -34,7 +34,6 @@ const Login = () => {
 
   return (
     <div className="container my-4" style={{ width: "50%" }}>
-      {/* {console.log("New currentUser", currentUser)} */}
       <h1>Log In</h1>
       <div>
         <div className="row mb-3">
@@ -79,7 +78,7 @@ const Login = () => {
         style={{ float: "right", color: "blue", textDecoration: "none" }}
         to="/signup"
       >
-        Create New Account
+        CREATE NEW ACCOUNT
       </Link>
     </div>
   );

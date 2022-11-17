@@ -1,33 +1,41 @@
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import userContext from "../Features/userContext";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { state, dispatch, currentUser } = useContext(userContext);
   const { id } = currentUser;
   const [totalPrice, setTotalPrice] = useState(0);
   const total = () => {
     let tPrice = 0;
     state.USER[id].cartData.forEach((item) => {
-      tPrice += item.count * item.price;
+      tPrice += (item.count / 2) * item.price;
     });
     setTotalPrice(tPrice);
   };
 
+  const cartClick = () => {
+    navigate("/thankyou");
+  };
   useEffect(() => {
     total();
   });
   return (
-    <div>
+    <div className="text-dark">
       {/* <!-- Button trigger modal --> */}
       <button
         type="button"
-        className="btn btn-primary"
+        className="btn btn-primary position-relative"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
-        cart item: {state.USER[id].cartData.length}
+        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {state.USER[id].cartData.length}
+          <span className="visually-hidden">unread messages</span>
+        </span>
+        <i className="fa-solid fa-cart-shopping"></i>
       </button>
 
       {/* <!-- Modal --> */}
@@ -63,7 +71,7 @@ const Cart = () => {
                         className="d-flex justify-content-around gap-3 my-2"
                       >
                         <span style={{ width: "100px" }}>{item.item}:</span>
-                        <span style={{ width: "100px" }}>{item.count}</span>
+                        <span style={{ width: "100px" }}>{item.count / 2}</span>
                         <div style={{ width: "100px" }}>
                           <button
                             className="btn btn-danger mx-2"
@@ -113,14 +121,14 @@ const Cart = () => {
               >
                 Close
               </button>
-              <Link
+              <button
+                onClick={cartClick}
                 type="button"
                 className="btn btn-primary"
-                to={"/thankYou"}
-                // data-bs-dismiss="modal"
+                data-bs-dismiss="modal"
               >
                 Save and Checkout
-              </Link>
+              </button>
             </div>
           </div>
         </div>
