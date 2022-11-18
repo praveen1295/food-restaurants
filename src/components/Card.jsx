@@ -6,7 +6,12 @@ const Card = ({ item, idx }) => {
   const { dispatch, currentUser } = useContext(userContext);
   return (
     <div className="card" style={{ width: "16rem" }}>
-      <img src={item.image} className="card-img-top" alt="..." />
+      <img
+        src={item.image}
+        className="card-img-top"
+        style={{ maxHeight: "10rem" }}
+        alt="..."
+      />
       <div className="card-body">
         <h5 className="card-title">{item.name}</h5>
       </div>
