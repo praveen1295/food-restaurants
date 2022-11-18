@@ -19,7 +19,10 @@ const Navbar = () => {
       style={{ backgroundColor: "#3d23e5" }}
     >
       <div className="container-fluid">
-        <Link className="navbar-brand text-light" to="/welcome">
+        <Link
+          className="navbar-brand text-light"
+          to={flag.login ? "/welcome" : "/"}
+        >
           <img
             src="assets/restaurant_24px.svg"
             className="text-light mx-2"
