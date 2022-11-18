@@ -69,6 +69,10 @@ const Login = () => {
         <button
           type="submit"
           className="btn btn-primary"
+          style={{
+            backgroundColor: "#3d23e5",
+            color: "white",
+          }}
           onClick={(e) => handleSubmit(e)}
         >
           Log in

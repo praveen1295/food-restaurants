@@ -110,7 +110,14 @@ const Signup = () => {
             />
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          style={{
+            backgroundColor: "#3d23e5",
+            color: "white",
+          }}
+        >
           Sign up
         </button>
       </form>
