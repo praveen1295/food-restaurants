@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import userContext from "../Features/userContext";
 
 const Cart = () => {
@@ -17,6 +17,10 @@ const Cart = () => {
   };
 
   const cartClick = () => {
+    if (!state.USER[index].cartData.length) {
+      alert("Please add items in cart");
+      return;
+    }
     navigate("/thankyou");
   };
   useEffect(() => {
@@ -53,7 +57,7 @@ const Cart = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                Modal title
+                Order Summary
               </h1>
               <button
                 type="button"

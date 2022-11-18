@@ -5,31 +5,32 @@ import userContext from "../Features/userContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const [currIndex, setCurrIndex] = useState(0);
 
-  const { state, dispatch, flag, setFlag, currentUser, setCurrentUser } =
+  const { state, flag, setFlag, setCurrentUser, showAlert } =
     useContext(userContext);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
   const handleSubmit = (e) => {
+    // eslint-disable-next-line
     const cUser = state.USER.map((user, index) => {
       if (user.email === loginData.email) {
         setCurrentUser({ ...user, index: index });
-        // setCurrIndex(index);
       }
       return user;
     });
+
     const auth = state.USER.some((user) => {
       return (
         user.email === loginData.email && user.password === loginData.password
       );
     });
     if (!auth) {
-      alert("Please enter valid credentials");
+      showAlert("Please enter valid credentials", "warning");
       return;
     }
     setFlag({ ...flag, login: true, cart: true });
     navigate("/welcome");
+    showAlert("Logged in successfully!", "success");
   };
 
   return (

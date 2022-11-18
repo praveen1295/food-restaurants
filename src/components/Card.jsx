@@ -3,7 +3,7 @@ import { useContext } from "react";
 import userContext from "../Features/userContext";
 
 const Card = ({ item, idx }) => {
-  const { state, dispatch, currentUser } = useContext(userContext);
+  const { dispatch, currentUser } = useContext(userContext);
   return (
     <div className="card" style={{ width: "16rem" }}>
       <img src={item.image} className="card-img-top" alt="..." />

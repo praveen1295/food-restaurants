@@ -9,9 +9,10 @@ import Signup from "./components/Signup";
 import Welcome from "./components/Welcome";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
-// import Card from "./components/Card";
 import Thankyou from "./components/Thankyou";
 import About from "./components/About";
+import Alert from "./components/Alert";
+import Spinner from "./components/Spinner";
 
 function App() {
   const initialState = useContext(userContext);
@@ -20,15 +21,30 @@ function App() {
   const [flag, setFlag] = useState({ login: false, cart: false });
   const [dataList, setDataList] = useState({ data: [], filterData: [] });
   const [currentUser, setCurrentUser] = useState({});
+  const [alert, setAlert] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getData = async () => {
+    setLoading(true);
     const response = await fetch("API/API.json");
     const data = await response.json();
+    setLoading(false);
     setDataList({ ...dataList, data: data, filterData: data });
+  };
+
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 1500);
   };
 
   useEffect(() => {
     getData();
+    // eslint-disable-next-line
   }, []);
   return (
     <userContext.Provider
@@ -41,11 +57,14 @@ function App() {
         setDataList,
         currentUser,
         setCurrentUser,
+        showAlert,
       }}
     >
       <Router>
         <div className="App">
           <Navbar />
+          {loading && <Spinner />}
+          <Alert alert={alert} />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

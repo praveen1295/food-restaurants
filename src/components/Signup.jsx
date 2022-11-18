@@ -10,7 +10,7 @@ const Signup = () => {
     confirmPassword: "",
     cartData: [],
   });
-  const { state, dispatch } = useContext(userContext);
+  const { state, dispatch, showAlert } = useContext(userContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ const Signup = () => {
       userData.email === "" ||
       userData.password === ""
     ) {
-      alert("Please enter valid credentials");
+      showAlert("invalid credentials or password not matched", "warning");
       return;
     }
 
@@ -29,10 +29,10 @@ const Signup = () => {
     });
 
     if (auth) {
-      alert("User of this Email Already Exist");
+      showAlert("User of this Email Already Exist", "warning");
       return;
     }
-    alert("Account is successfully created");
+    showAlert("Registered successfully!", "success");
 
     dispatch({ type: "userData", payload: userData });
     setUserData({

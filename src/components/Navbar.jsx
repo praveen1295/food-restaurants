@@ -1,12 +1,18 @@
 import React, { useContext } from "react";
 import userContext from "../Features/userContext";
 import Cart from "./Cart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 const Navbar = () => {
-  const { state, dispatch, flag, setFlag, currentUser } =
-    useContext(userContext);
+  const navigate = useNavigate();
+  const { flag, setFlag, currentUser, showAlert } = useContext(userContext);
+
+  const handleLogout = () => {
+    setFlag({ ...flag, login: false, cart: false });
+    showAlert("Successfully logged out", "success");
+    navigate("/");
+  };
   return (
     <nav
       className="navbar navbar-expand-lg text-light"
@@ -91,15 +97,14 @@ const Navbar = () => {
                         <hr className="dropdown-divider" />
                       </li>
                       <li>
-                        <Link
+                        <span
                           className="nav-link mx-2"
-                          to={"/"}
                           onClick={(e) => {
-                            setFlag({ ...flag, login: false, cart: false });
+                            handleLogout(e);
                           }}
                         >
                           LOGOUT
-                        </Link>
+                        </span>
                       </li>
                     </ul>
                   </li>
