@@ -18,13 +18,13 @@ function App() {
   const [state, dispatch] = useReducer(userReducer, initialState);
 
   const [flag, setFlag] = useState({ login: false, cart: false });
-  const [dataList, setDataList] = useState([]);
+  const [dataList, setDataList] = useState({ data: [], filterData: [] });
   const [currentUser, setCurrentUser] = useState({});
 
   const getData = async () => {
     const response = await fetch("API/API.json");
     const data = await response.json();
-    setDataList(data);
+    setDataList({ ...dataList, data: data, filterData: data });
   };
 
   useEffect(() => {

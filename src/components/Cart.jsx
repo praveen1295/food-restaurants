@@ -6,12 +6,12 @@ import userContext from "../Features/userContext";
 const Cart = () => {
   const navigate = useNavigate();
   const { state, dispatch, currentUser } = useContext(userContext);
-  const { id } = currentUser;
+  const { index } = currentUser;
   const [totalPrice, setTotalPrice] = useState(0);
   const total = () => {
     let tPrice = 0;
-    state.USER[id].cartData.forEach((item) => {
-      tPrice += (item.count / 2) * item.price;
+    state.USER[index].cartData.forEach((item) => {
+      tPrice += item.count * item.price;
     });
     setTotalPrice(tPrice);
   };
@@ -32,7 +32,7 @@ const Cart = () => {
         data-bs-target="#staticBackdrop"
       >
         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-          {state.USER[id].cartData.length}
+          {state.USER[index].cartData.length}
           <span className="visually-hidden">unread messages</span>
         </span>
         <i className="fa-solid fa-cart-shopping"></i>
@@ -62,16 +62,16 @@ const Cart = () => {
               ></button>
             </div>
             <div className="modal-body">
-              {state.USER[id].cartData.length ? (
+              {state.USER[index].cartData.length ? (
                 <>
-                  {state.USER[id].cartData.map((item, idx) => {
+                  {state.USER[index].cartData.map((item, idx) => {
                     return (
                       <div
                         key={idx}
                         className="d-flex justify-content-around gap-3 my-2"
                       >
                         <span style={{ width: "100px" }}>{item.item}:</span>
-                        <span style={{ width: "100px" }}>{item.count / 2}</span>
+                        <span style={{ width: "100px" }}>{item.count}</span>
                         <div style={{ width: "100px" }}>
                           <button
                             className="btn btn-danger mx-2"

@@ -8,45 +8,6 @@ export default function reducer(state, action) {
       return { ...state, USER: userData };
     }
 
-    // case "addToCart": {
-    //   let addItem = true;
-    //   const data = state.cartData.map((item, idx) => {
-    //     if (item.item === action.payload.itemName) {
-    //       addItem = false;
-    //       return {
-    //         ...item,
-    //         count: item.count + 1,
-    //       };
-    //     }
-    //     return item;
-    //   });
-    //   if (!addItem) {
-    //     return {
-    //       ...state,
-    //       cartData: data,
-    //     };
-    //   }
-    //   if (addItem) {
-    //     let addData = [
-    //       ...state.cartData,
-    //       {
-    //         item: action.payload.itemName,
-    //         price: action.payload.itemPrice,
-    //         count: 1,
-    //         id: action.payload.index,
-    //       },
-    //     ];
-    //     return {
-    //       ...state,
-    //       cartData: addData,
-    //     };
-    //   }
-
-    //   return {
-    //     ...state,
-    //   };
-    // }
-
     case "addToCart": {
       let index = action.payload.currentUser.index;
       let addItem = true;
@@ -64,13 +25,13 @@ export default function reducer(state, action) {
         return item;
       });
 
-      // if (!addItem) {
-      //   // state.USER[index].cartData = data;
-      //   console.log("2", state.USER);
-      //   return {
-      //     ...state,
-      //   };
-      // }
+      if (!addItem) {
+        state.USER[index].cartData = data;
+        // console.log("2", state.USER);
+        return {
+          ...state,
+        };
+      }
 
       if (addItem) {
         let addData = [
@@ -93,26 +54,6 @@ export default function reducer(state, action) {
         ...state,
       };
     }
-
-    // case "removeFromCart": {
-    //   const data = state.cartData
-    //     .map((item, index) => {
-    //       if (item.item === action.payload) {
-    //         return {
-    //           ...item,
-    //           count: item.count - 1,
-    //         };
-    //       }
-    //       return item;
-    //     })
-    //     .filter((item, index) => {
-    //       return item.count > 0;
-    //     });
-    //   return {
-    //     ...state,
-    //     cartData: data,
-    //   };
-    // }
 
     case "removeFromCart": {
       const index = action.payload.currentUser.id;
