@@ -27,7 +27,8 @@ const Card = ({ item, idx }) => {
         </button>
 
         <button
-          className="card-link btn btn-primary"
+          className="card-link btn color-light"
+          style={{ backgroundColor: "#3d23e5", color: "white" }}
           onClick={() =>
             dispatch({
               type: "addToCart",

@@ -13,9 +13,6 @@ const userContext = createContext({
       ],
     },
   ],
-  // cartData: [
-  //   // { item: "", price: 200, count: 1, id: 1 }
-  // ],
 });
 
 export default userContext;

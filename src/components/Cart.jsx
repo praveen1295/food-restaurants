@@ -28,6 +28,7 @@ const Cart = () => {
       <button
         type="button"
         className="btn btn-primary position-relative"
+        style={{ backgroundColor: "#3d23e5", color: "white" }}
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
@@ -89,6 +90,10 @@ const Cart = () => {
                           </button>
                           <button
                             className="btn btn-primary"
+                            style={{
+                              backgroundColor: "#3d23e5",
+                              color: "white",
+                            }}
                             onClick={() =>
                               dispatch({
                                 type: "addToCart",
@@ -125,6 +130,7 @@ const Cart = () => {
                 onClick={cartClick}
                 type="button"
                 className="btn btn-primary"
+                style={{ backgroundColor: "#3d23e5", color: "white" }}
                 data-bs-dismiss="modal"
               >
                 Save and Checkout

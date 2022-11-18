@@ -8,13 +8,20 @@ const Navbar = () => {
   const { state, dispatch, flag, setFlag, currentUser } =
     useContext(userContext);
   return (
-    <nav className="navbar navbar-expand-lg bg-primary text-light">
+    <nav
+      className="navbar navbar-expand-lg text-light"
+      style={{ backgroundColor: "#3d23e5" }}
+    >
       <div className="container-fluid">
         <Link className="navbar-brand text-light" to="/welcome">
           <img
             src="assets/restaurant_24px.svg"
             className="text-light mx-2"
             alt="..."
+            style={{
+              filter:
+                "invert(65%) sepia(100%) saturate(0%) hue-rotate(246deg) brightness(102%) contrast(143%)",
+            }}
           />
           Foods Restaurant
         </Link>
