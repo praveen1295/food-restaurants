@@ -16,7 +16,10 @@ const Menu = () => {
   };
   return (
     <div className="container">
-      <div className="input-group w-50 float-left my-4 mx-2">
+      <div
+        className="input-group float-left my-4 mx-2"
+        style={{ width: "22rem" }}
+      >
         <span className="input-group-text">Filter By Name:</span>
         <input
           type="text"
